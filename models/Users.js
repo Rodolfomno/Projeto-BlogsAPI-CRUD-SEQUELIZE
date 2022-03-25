@@ -32,16 +32,15 @@ module.exports = (sequelize) => {
       Attributes, 
       {
         timestamps: false,
-        tableName: 'users',
+        tableName: 'Users',
       },
     );
   
     Users.associate = (models) => {
       Users.hasMany(models.BlogPosts, {
         foreignKey: 'userId',
-        as: 'user',
+        as: 'User',
         });
     };
-
     return Users;
-  };
+};
