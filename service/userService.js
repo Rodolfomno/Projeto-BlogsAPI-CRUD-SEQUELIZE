@@ -15,8 +15,15 @@ const getAllUsers = async () => {
   return allUsers;
 };
 
+const getUserById = async (id) => {
+  const [getUser] = await Users.findAll({ where: { id } });
+  if (!getUser) return false;
+  return getUser;
+};
+
 module.exports = {
   createNewUser,
   searchByDisplayName,
   getAllUsers,
+  getUserById,
 };
