@@ -10,7 +10,13 @@ const searchByDisplayName = async (displayName) => {
     return searchDisplayName;
 };
 
+const getAllUsers = async () => {
+  const allUsers = await Users.findAll();
+  return allUsers;
+};
+
 module.exports = {
   createNewUser,
   searchByDisplayName,
+  getAllUsers,
 };
