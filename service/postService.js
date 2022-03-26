@@ -1,4 +1,4 @@
-const { BlogPosts, Users, Categories } = require('../models');
+const { BlogPosts, Users } = require('../models');
 const categoryService = require('./categoryService');
 
 const createNewPost = async (title, content, userId) => {
