@@ -8,7 +8,6 @@ const createNewPost = async (title, content, userId) => {
 };
 
 const getAllPosts = async () => {
-  console.log('===========PASSOUAQUI======================');
   const halfPosts = await BlogPosts.findAll({
     include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
   });
@@ -17,12 +16,26 @@ const getAllPosts = async () => {
   const allPosts = halfPosts
     .map((post) => Object.assign(post.dataValues, { categories: allCategories }));
 
-  console.log('==================', allPosts);
-
   return allPosts;
+};
+
+const getPostById = async (id) => {
+  const [postId] = await BlogPosts.findAll({
+    include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+    where: { id },
+  });
+
+  if (!postId) return null;
+  
+  const categoryIdById = await categoryService.getCategoryById(id);
+
+  const postByIdWithCategory = Object.assign(postId.dataValues, { categories: categoryIdById });
+
+  return postByIdWithCategory;
 };
 
 module.exports = {
   createNewPost,
   getAllPosts,
+  getPostById,
 };
