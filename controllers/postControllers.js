@@ -5,8 +5,6 @@ const createNewPost = async (req, res, next) => {
     try {
         const { title, content, categoryIds } = req.body;
         const { id } = req.tokenData;
-
-        console.log('========================', id);
         
         const foundCategoryId = await categoryService.getCategoryById(categoryIds);
 
@@ -22,6 +20,16 @@ const createNewPost = async (req, res, next) => {
     }
 };
 
+const getAllPosts = async (_req, res, next) => {
+    try {
+        const allPosts = await postService.getAllPosts();
+        return res.status(200).json(allPosts);
+    } catch (error) {
+        return next(error);
+    }
+};
+
 module.exports = {
   createNewPost,
+  getAllPosts,
 };
