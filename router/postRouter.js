@@ -14,4 +14,6 @@ postRouter.post('/', authMiddleware, validatePost, postControllers.createNewPost
 
 postRouter.put('/:id', authMiddleware, validateUpdate, postControllers.updatePost);
 
+postRouter.delete('/:id', authMiddleware, postControllers.deleteById);
+
 module.exports = postRouter;

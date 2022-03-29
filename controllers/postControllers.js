@@ -61,9 +61,28 @@ const updatePost = async (req, res, next) => {
     }
 };
 
+const deleteById = async (req, res, next) => {
+    try {
+       const { id } = req.params;
+       const userId = req.tokenData.id;
+
+       const findPost = await postService.getPostById(id);
+       if (!findPost) return res.status(404).json({ message: 'Post does not exist' }); 
+       
+       const deletedById = await postService.deleteById(id);
+       
+       if (deletedById !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+    
+       return res.status(204).end();
+    } catch (error) {
+        return next(error);
+    }
+};
+
 module.exports = {
   createNewPost,
   getAllPosts,
   getPostById,
   updatePost,
+  deleteById,
 };
