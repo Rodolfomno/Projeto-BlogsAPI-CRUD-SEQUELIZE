@@ -1,5 +1,6 @@
 const userService = require('../service/userService');
 const jwtGenerator = require('../util/jwtGenerator');
+const postService = require('../service/postService');
 
 const createNewUser = async (req, res, next) => {
     try {
@@ -42,8 +43,21 @@ const getUserById = async (req, res, next) => {
     }
 };
 
+const deleteByMe = async (req, res, next) => {
+    try {
+        const userId = req.tokenData.id;
+
+        await postService.deleteById(userId);
+
+        return res.status(204).end();
+    } catch (error) {
+        return next(error);
+    }
+};
+
 module.exports = {
   createNewUser,
   getAllUsers,
   getUserById,
+  deleteByMe,
 };
