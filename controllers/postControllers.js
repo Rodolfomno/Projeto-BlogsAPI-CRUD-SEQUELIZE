@@ -35,11 +35,27 @@ const getPostById = async (req, res, next) => {
 
         const postById = await postService.getPostById(id);
 
-        console.log('==========================================', postById);
-
         if (!postById) return res.status(404).json({ message: 'Post does not exist' });
 
         return res.status(200).json(postById);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const updatePost = async (req, res, next) => {
+    try {
+        const { title, content } = req.body;
+        const { id } = req.params;
+        const userId = req.tokenData.id;
+        const updatedPost = await postService.updatePost(title, content, id);
+
+        if (!updatedPost) return res.status(404).json({ message: 'Post does not exist' });
+
+        if (updatedPost
+            .userId !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+
+        return res.status(200).json(updatedPost);
     } catch (error) {
         return next(error);
     }
@@ -49,4 +65,5 @@ module.exports = {
   createNewPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };

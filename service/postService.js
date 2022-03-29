@@ -34,8 +34,26 @@ const getPostById = async (id) => {
   return postByIdWithCategory;
 };
 
+const updatePost = async (title, content, id) => {
+  const post = await BlogPosts.findOne({
+    where: { id },
+    attributes: { exclude: ['id', 'published', 'updated'] },
+  });
+
+  if (!post) return false;
+
+  post.title = title;
+  post.content = content;
+
+  const categoryIdById = await categoryService.getCategoryById(id);
+  Object.assign(post.dataValues, { categories: categoryIdById });
+
+  return post;
+};
+
 module.exports = {
   createNewPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };

@@ -6,7 +6,6 @@ const checkLogin = async (req, res, next) => {
         const { email } = req.body;
 
         const userExists = await loginService.searchByEmail(email);
-        console.log(userExists);
         if (!userExists) return res.status(400).json({ message: 'Invalid fields' });
 
         const token = jwtGenerator({ id: userExists.dataValues.id });
